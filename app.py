@@ -7,6 +7,13 @@ def mail_gonder(konu, icerik):
     gonderen_mail = os.getenv("EMAIL")
     sifre = os.getenv("PASSWORD")
 
+    # 🔥 DEBUG (çok önemli)
+    print("EMAIL:", gonderen_mail)
+    print("PASSWORD:", sifre)
+
+    if not gonderen_mail or not sifre:
+        raise ValueError("EMAIL veya PASSWORD gelmedi ❌")
+
     alici_mail = "yonetim@polipediasigorta.com"
 
     mesaj = MIMEText(icerik)
@@ -23,14 +30,11 @@ def mail_gonder(konu, icerik):
     print(f"{konu} gönderildi 🚀")
 
 
-# 🔥 TEST İÇİN HER ZAMAN GÖNDER
-mail_gonder(
-    "TEST MAIL",
-    "Sistem başarıyla çalışıyor 🚀"
-)
+# TEST
+mail_gonder("TEST MAIL", "Sistem başarıyla çalışıyor 🚀")
 
 
-# 🔥 NORMAL SİSTEM
+# NORMAL
 bugun = datetime.now().day
 
 odemeler = {
@@ -44,7 +48,4 @@ odemeler = {
 if bugun in odemeler:
     konu = odemeler[bugun]
     icerik = f"Hatırlatma: {konu}"
-
     mail_gonder(konu, icerik)
-else:
-    print("Bugün gönderilecek ödeme yok")

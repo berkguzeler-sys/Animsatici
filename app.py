@@ -1,11 +1,11 @@
 import smtplib
 from email.mime.text import MIMEText
 from datetime import datetime
-import time
+import os
 
 def mail_gonder(konu, icerik):
-    gonderen_mail = "bg.guzeler@gmail.com"
-    sifre = "fayflwijkpgthnxl"
+    gonderen_mail = os.getenv("EMAIL")
+    sifre = os.getenv("PASSWORD")
 
     alici_mail = "yonetim@polipediasigorta.com"
 
@@ -20,8 +20,18 @@ def mail_gonder(konu, icerik):
     server.send_message(mesaj)
     server.quit()
 
-    print(f"{konu} gönderildi")
+    print(f"{konu} gönderildi 🚀")
 
+
+# 🔥 TEST İÇİN HER ZAMAN GÖNDER
+mail_gonder(
+    "TEST MAIL",
+    "Sistem başarıyla çalışıyor 🚀"
+)
+
+
+# 🔥 NORMAL SİSTEM
+bugun = datetime.now().day
 
 odemeler = {
     5:  "Polipedia İşbankası Kredi Kartı Ödemesi",
@@ -31,15 +41,10 @@ odemeler = {
     30: "Maaş, Ticketi, Vergi, SSK ödemesi"
 }
 
-while True:
-    bugun = datetime.now().day
+if bugun in odemeler:
+    konu = odemeler[bugun]
+    icerik = f"Hatırlatma: {konu}"
 
-    if bugun in odemeler:
-        konu = odemeler[bugun]
-        icerik = f"Hatırlatma: {konu}"
-
-        mail_gonder(konu, icerik)
-
-        time.sleep(86400)  # 1 gün bekle
-
-    time.sleep(3600)  # saatlik kontrol
+    mail_gonder(konu, icerik)
+else:
+    print("Bugün gönderilecek ödeme yok")

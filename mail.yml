@@ -14,7 +14,8 @@ jobs:
         with:
           python-version: "3.10"
 
-      - run: python app.py
+      - name: Script çalıştır
+        run: python app.py
         env:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
